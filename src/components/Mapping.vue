@@ -36,33 +36,33 @@
     </div>
     <p class="tip">声明：EasyEos团队提供免费、开源的映射工具，绝不会以任何形式使用或储存用户私钥</p>
     <div class="tab-btn-container">
-        <button class="tab-btn tab-active" id="tabBtn1">用明文私匙</button>
-        <button class="tab-btn key-btn" id="tabBtn2">
-            <img src="../assets/images/Recommend1_icon.svg" id="icon1">
-            <img src="../assets/images/Recommend2_icon.svg" id="icon2" style="display: none">
+        <button class="tab-btn" v-bind:class="{ 'tab-active': reg_type == 1 }" id="tabBtn1" v-on:click="changeType(1)">用明文私匙</button>
+        <button class="tab-btn key-btn" v-bind:class="{ 'tab-active': reg_type == 2 }" id="tabBtn2" v-on:click="changeType(2)">
+            <img src="../assets/images/Recommend1_icon.svg" id="icon1" v-if="reg_type == 1">
+            <img src="../assets/images/Recommend2_icon.svg" id="icon2" v-if="reg_type == 2">
             <span>用Keystore+密码</span>
         </button>
     </div>
     <div class="key-container">
         <div>
             <label for="eos">EOS公匙</label>
-            <input type="text" placeholder="这里输入EOS公钥，你刚才复制过的" id="eos">
+            <input type="text" v-model="pub_key" placeholder="这里输入EOS公钥，你刚才复制过的" id="eos">
         </div>
-        <div id="ethContainer">
+        <div id="ethContainer" v-if="reg_type == 1">
             <label for="eth">ETH私匙</label>
-            <input type="password" id="eth">
+            <input type="password" v-model="pri_key" id="eth">
         </div>
-        <div id="keystoreContainer" style="display: none">
+        <div id="keystoreContainer" v-if="reg_type == 2">
             <label for="keystore">Keystore</label>
-            <input type="text" id="keystore" placeholder="请将keystore内容粘贴在此处">
+            <input type="text" v-model="keystore" id="keystore" placeholder="请将keystore内容粘贴在此处">
         </div>
-        <div id="keyPassContainer" style="display: none">
+        <div id="keyPassContainer" v-if="reg_type == 2">
             <label for="keystorePass">Keystore密码</label>
-            <input type="password" id="keystorePass">
+            <input type="password" v-model="password" id="keystorePass">
         </div>
         <div>
             <label for="gwei">GWEI</label>
-            <input type="text" placeholder="填2-6，不填默认2" id="gwei">
+            <input type="text" v-model="gwei" placeholder="填2-6，不填默认2" id="gwei">
         </div>
     </div>
     <div class="info-divider">
@@ -118,18 +118,25 @@ export default {
     return {
       eos_pub: '',
       eos_pri: '',
-      priKey: '',
-      pubKey: '',
+      reg_type: 1,
+      pri_key: '',
+      pub_key: '',
+      keystore: '',
+      password: '',
+      gwei: 2,
       result: ''
     }
   },
   methods: {
     keygen: function () {
-      const c = this;
-      ecc.randomKey().then(privateWif =>  {
-        c.eos_pri = privateWif;
-        c.eos_pub = ecc.privateToPublic(privateWif);
-      });
+      const c = this
+      ecc.randomKey().then(privateWif => {
+        c.eos_pri = privateWif
+        c.eos_pub = ecc.privateToPublic(privateWif)
+      })
+    },
+    changeType: function(type) {
+      this.reg_type = type;
     },
     mapping: function () {
       const c = this

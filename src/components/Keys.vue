@@ -35,8 +35,6 @@
 
 <script>
 import Web3 from 'web3'
-import Transaction from 'ethereumjs-tx'
-import util from 'ethereumjs-util'
 
 // init web3
 let web3
@@ -69,10 +67,10 @@ export default {
         return
       }
       const r = web3.eth.call({
-        to: '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf', 
+        to: '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf',
         data: contract.keys.getData(this.address)
       })
-      if (r.length == 130) {
+      if (r.length === 130) {
         this.pubkey = '尚未映射'
         return
       }
