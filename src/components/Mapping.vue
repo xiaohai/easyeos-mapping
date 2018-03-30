@@ -5,19 +5,19 @@
     <div class="keys">
         <label>EOS公匙</label>
         <div>
-            <input type="text" class="key-input" value="WY242420UIOH45689RE0932FHVN9056NM">
-            <button class="copy-btn">复制公匙</button>
+            <input id="eos_pub" type="text" class="key-input" v-model="eos_pub" placeholder="EOS公钥">
+            <button class="copy-btn" data-clipboard-target="#eos_pub">复制公匙</button>
         </div>
         <label>EOS私匙</label>
         <div>
-            <input type="text" class="key-input" value="WY242420UIOH45689RE0932FHVN9056NM">
-            <button class="copy-btn">复制私匙</button>
+            <input id="eos_pri" type="text" class="key-input" v-model="eos_pri" placeholder="EOS私钥">
+            <button class="copy-btn" data-clipboard-target="#eos_pri">复制私匙</button>
         </div>
     </div>
     <div class="info-divider">
         <div>
             <p>这是第一步，点击【生成EOS密匙对】</p>
-            <button class="info-button">生成EOS密匙对</button>
+            <button class="info-button" v-on:click="keygen">生成EOS密匙对</button>
         </div>
     </div>
     <div class="step-container">
@@ -91,6 +91,10 @@
 import Web3 from 'web3'
 import Transaction from 'ethereumjs-tx'
 import util from 'ethereumjs-util'
+import ecc from 'eosjs-ecc'
+import ClipboardJS from 'clipboard'
+
+new ClipboardJS('.copy-btn')
 
 // init web3
 let web3
@@ -112,12 +116,21 @@ export default {
   name: 'Mapping',
   data: function () {
     return {
+      eos_pub: '',
+      eos_pri: '',
       priKey: '',
       pubKey: '',
       result: ''
     }
   },
   methods: {
+    keygen: function () {
+      const c = this;
+      ecc.randomKey().then(privateWif =>  {
+        c.eos_pri = privateWif;
+        c.eos_pub = ecc.privateToPublic(privateWif);
+      });
+    },
     mapping: function () {
       const c = this
       try {
