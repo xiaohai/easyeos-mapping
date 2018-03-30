@@ -150,8 +150,6 @@ export default {
         }
         const address = util.bufferToHex(util.privateToAddress(privateKey))
 
-        console.log(address)
-
         const number = web3.eth.getTransactionCount(address)
 
         var tx = new Transaction(null, 1)
