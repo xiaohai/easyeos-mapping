@@ -72,6 +72,10 @@ export default {
         to: '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf', 
         data: contract.keys.getData(this.address)
       })
+      if (r.length == 130) {
+        this.pubkey = '尚未映射'
+        return
+      }
       this.pubkey = web3.toAscii('0x' + r.substring(130))
     }
   }
