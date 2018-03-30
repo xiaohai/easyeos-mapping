@@ -68,20 +68,20 @@
     <div class="info-divider">
         <div>
             <p>点击【现在映射】按钮，即可完成映射</p>
-            <button class="info-button">现在映射</button>
+            <button class="info-button" v-on:click="mapping">现在映射</button>
         </div>
     </div>
-    <div class="result" id="resultContainer" style="display: none">
+    <div class="result" id="resultContainer">
         <p>合约验证时间取决于矿工手续费。您可能需要等待一段时间，直至合约达到12个区块确认。如区块浏览器看不到该hash，可能验证失败，您可重新映射。如该hash已有12个区块验证，可点击右下角查询结果。</p>
         <div>
             <label>映射结果</label>
-            <input type="text" value="0x123214fsaf142114" disabled>
+            <input type="text" v-model="result" disabled>
         </div>
     </div>
-    <div class="info-divider" id="inquiryContainer" style="display: none">
+    <div class="info-divider" id="inquiryContainer">
         <div>
             <p>没有成功的自信？点击【查询结果】</p>
-            <button class="info-button">查询结果</button>
+            <router-link to="/keys" class="info-button" tag="button">查询结果</router-link>
         </div>
     </div>
   </section>
@@ -91,6 +91,7 @@
 import Web3 from 'web3'
 import Transaction from 'ethereumjs-tx'
 import util from 'ethereumjs-util'
+import keythereum from 'keythereum'
 import ecc from 'eosjs-ecc'
 import ClipboardJS from 'clipboard'
 
@@ -135,24 +136,31 @@ export default {
         c.eos_pub = ecc.privateToPublic(privateWif)
       })
     },
-    changeType: function(type) {
-      this.reg_type = type;
+    changeType: function (type) {
+      this.reg_type = type
     },
     mapping: function () {
       const c = this
       try {
-        const privateKey = Buffer.from(this.priKey, 'hex')
+        let privateKey
+        if (this.reg_type === 1) {
+          privateKey = Buffer.from(this.pri_key, 'hex')
+        } else {
+          privateKey = keythereum.recover(this.password, JSON.parse(this.keystore))
+        }
         const address = util.bufferToHex(util.privateToAddress(privateKey))
+
+        console.log(address)
 
         const number = web3.eth.getTransactionCount(address)
 
         var tx = new Transaction(null, 1)
         tx.nonce = number
         tx.to = eos.address
-        tx.gasPrice = 2000000000
+        tx.gasPrice = this.gwei * 1000000000
         tx.gasLimit = 100000
         tx.value = 0
-        tx.data = contract.register.getData(c.pubKey)
+        tx.data = contract.register.getData(this.pub_key)
 
         tx.sign(privateKey)
         var serializedTx = tx.serialize()
@@ -161,7 +169,7 @@ export default {
             c.result = err.message
             return
           }
-          c.result = 'success:' + hash
+          c.result = hash
         })
       } catch (e) {
         this.result = e.message
