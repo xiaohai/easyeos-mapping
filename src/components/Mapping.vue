@@ -167,7 +167,7 @@ export default {
             c.result = err.message
             return
           }
-          c.result = hash
+          c.result = 'https://etherscan.io/tx/' + hash
         })
       } catch (e) {
         this.result = e.message

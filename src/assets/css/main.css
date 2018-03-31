@@ -297,7 +297,8 @@ body {
     font-size: 20px;
 }
 
-.github button {
+.github a {
+    display: inline-block;
     border: 1px solid #292929;
     border-radius: 4px;
     width: 200px;
@@ -309,7 +310,11 @@ body {
     margin-top: 30px;
 }
 
-.github button img {
+.github a span {
+    margin-top: 45px;
+}
+
+.github a img {
     margin-left: 30px;
 }
 
