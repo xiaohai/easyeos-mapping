@@ -12,10 +12,11 @@ body {
     align-items: center;
     justify-content: center;
     color: #ffffff;
+    min-width: 700px;
 }
 
 .banner-btn-container {
-    width: 600px;
+    /*width: 600px;*/
     margin: 30px auto;
     display: flex;
     justify-content: center;
@@ -127,6 +128,7 @@ body {
     width: 140px;
     display: block;
     cursor: pointer;
+    border: none;
 }
 
 .step-container {
@@ -176,6 +178,7 @@ body {
     border-radius: 4px 0 0 4px;
     border: 1px solid #303643;
     cursor: pointer;
+    background: #FFFFFF;
 }
 
 .tab-btn:focus {
