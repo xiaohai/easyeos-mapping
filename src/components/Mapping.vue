@@ -1,7 +1,7 @@
 <template>
   <section class="main">
     <h2 class="main-title">点击生成EOS密钥对，生成EOS公钥、私钥</h2>
-    <p class="tip">请您妥善储存私钥，可以抄在纸上，放到你觉得安全的地方。EOS主网上线后，EOS代币将存在公钥对应的地址中，此时仅能通过你保存的EOS私钥来控制转账。所以不要告诉亲戚朋友，也不能告诉你老婆！</p>
+    <p class="tip">请你妥善储存私钥，可以抄在纸上，放到你觉得安全的地方。EOS主网上线后，EOS代币将存在公钥对应的地址中，此时仅能通过你保存的EOS私钥来控制转账。所以不要告诉亲戚朋友，也不能告诉你老婆！</p>
     <div class="keys">
         <label>EOS公匙</label>
         <div>
@@ -72,7 +72,7 @@
         </div>
     </div>
     <div class="result" id="resultContainer">
-        <p>合约验证时间取决于矿工手续费。您可能需要等待一段时间，直至合约达到12个区块确认。如区块浏览器看不到该hash，可能验证失败，您可重新映射。如该hash已有12个区块验证，可点击右下角查询结果。</p>
+        <p>合约验证时间取决于矿工手续费。你可能需要等待一段时间，直至合约达到12个区块确认。如区块浏览器看不到该hash，可能验证失败，你可重新映射。如该hash已有12个区块验证，可点击右下角查询结果。</p>
         <div>
             <label>映射结果</label>
             <input type="text" v-model="result" disabled>
