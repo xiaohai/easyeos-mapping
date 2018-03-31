@@ -1,6 +1,6 @@
-# eos-mapping
+# easyeos-mapping
 
-> A Vue.js project
+> EOS contribution project
 
 ## Build Setup
 
