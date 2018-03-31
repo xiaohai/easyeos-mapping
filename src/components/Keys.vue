@@ -20,7 +20,7 @@
             <input type="text" v-model="address" placeholder="输入你用于映射的ETH地址" id="eos">
         </div>
         <div>
-            <label for="eth">EOS公匙</label>
+            <label>EOS公匙</label>
             <input type="text" v-model="pubkey" placeholder="EOS公钥" disabled>
         </div>
     </div>
